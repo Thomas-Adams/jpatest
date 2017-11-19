@@ -18,7 +18,72 @@
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- Exclude the source persistence.xml file from copying into the bundle -->
+                <excludes>
+                    <exclude>META-INF/persistence.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
+            <plugin>
+                <!-- This plugin isn't currently available in Maven Central at this version. Will need to build it
+                manually. Fork of the original source is here:
+                        https://github.com/jtkb/jpa-maven-plugin
+                -->
+                <groupId>com.edugility</groupId>
+                <artifactId>jpa-maven-plugin</artifactId>
+                <version>3-SNAPSHOT</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>javax.persistence</artifactId>
+                        <version>2.0.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>Generate entityClassNames.properties</id>
+                        <goals>
+                            <goal>list-entity-classnames</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>persistence.xml</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    ${project.build.directory}/generated-test-sources/jpa-maven-plugin/entityClassnames.properties
+                                </filter>
+                            </filters>
+                            <outputDirectory>${project.build.directory}/classes/META-INF</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/main/resources/META-INF</directory>
+                                    <includes>
+                                        <include>persistence.xml</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -28,10 +93,14 @@
                     <instructions>
                         <Export-Package>com.javatechnics.jpa,
                         com.javatechnics.jpa.dao</Export-Package>
+                        <!-- Need to specify to this plugin to use the generated persistence.xml file otherwise it will copy to source one -->
+                        <Include-Resource>META-INF/persistence.xml=${project.build.directory}/classes/META-INF/persistence.xml</Include-Resource>
                         <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
                     </instructions>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </build>
 </project>

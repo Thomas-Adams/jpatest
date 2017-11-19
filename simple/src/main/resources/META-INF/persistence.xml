@@ -4,7 +4,7 @@
     <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
         <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
         <non-jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=jdbc/test)</non-jta-data-source>
-        <class>com.javatechnics.jpa.Book</class>
+        <class>${entityClassnames}</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="openjpa.ConnectionURL" value="jdbc:mariadb://localhost:3306/test"/>
