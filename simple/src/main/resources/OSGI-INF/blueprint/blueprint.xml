@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.osgi.org/xmlns/blueprint/v1.0.0'
+        xmlns:jpa='http://aries.apache.org/xmlns/jpa/v2.0.0'
+        xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+http://aries.apache.org/xmlns/jpa/v2.0.0 ">
+
+    <jpa:enable />
+
+    <bean id="bookServiceDao" class="com.javatechnics.jpa.BookServiceDaoImpl" activation="eager" />
+
+    <service ref="bookServiceDao" interface="com.javatechnics.jpa.dao.BookServiceDao" activation="eager">
+        <service-properties>
+            <entry key="name" value="BookServiceDao" />
+            <entry key="ServiceManager" value="Blueprint" />
+        </service-properties>
+    </service>
+
+</blueprint>
