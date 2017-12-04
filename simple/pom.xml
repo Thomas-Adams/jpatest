@@ -94,7 +94,8 @@
                         <Export-Package>com.javatechnics.jpa,
                         com.javatechnics.jpa.dao</Export-Package>
                         <!-- Need to specify to this plugin to use the generated persistence.xml file otherwise it will copy to source one -->
-                        <Include-Resource>META-INF/persistence.xml=${project.build.directory}/classes/META-INF/persistence.xml</Include-Resource>
+                        <Include-Resource>META-INF/persistence.xml=${project.build.directory}/classes/META-INF/persistence.xml,
+                        {maven-resources}</Include-Resource>
                         <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
                     </instructions>
                 </configuration>
