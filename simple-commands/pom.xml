@@ -22,11 +22,13 @@
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
             <version>4.1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.javatechnics.jpa</groupId>
             <artifactId>simple</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -39,10 +41,32 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package />
+                        <Export-Package/>
                         <Karaf-Commands>*</Karaf-Commands>
                     </instructions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <version>4.1.1</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>features-generate-descriptor</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>target/features.xml</outputFile>
+                            <aggregateFeatures>false</aggregateFeatures>
+                            <includeTransitiveDependency>false</includeTransitiveDependency>
+                            <includeProjectArtifact>true</includeProjectArtifact>
+                        </configuration>
+                    </execution>
+
+                </executions>
             </plugin>
         </plugins>
     </build>
