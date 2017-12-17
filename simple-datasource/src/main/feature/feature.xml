@@ -9,7 +9,7 @@
         <feature version="1.0.1">pax-jdbc-mariadb</feature>
         <bundle>mvn:com.javatechnics.jpa/simple-datasource/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/simple/1.0.0-SNAPSHOT</bundle>
-
+        <bundle>mvn:com.javatechnics.jpa/dummy-persistence-provider/1.0.0-SNAPSHOT</bundle>
     </feature>
 </features>
 
