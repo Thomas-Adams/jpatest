@@ -3,10 +3,10 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0 ">
     <feature name="simple-datasource" description="simple-datasource" version="1.0.0.SNAPSHOT">
-        <feature version="4.1.1">jdbc</feature>
-        <feature version="2.6.0">jpa</feature>
-        <feature version="2.4.1">openjpa</feature>
-        <feature version="1.0.1">pax-jdbc-mariadb</feature>
+        <feature>jdbc</feature>
+        <feature>jpa</feature>
+        <feature>openjpa</feature>
+        <feature>pax-jdbc-mariadb</feature>
         <bundle>mvn:com.javatechnics.jpa/simple-datasource/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/simple/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/dummy-persistence-provider/1.0.0-SNAPSHOT</bundle>
