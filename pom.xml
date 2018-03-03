@@ -10,6 +10,7 @@
         <module>simple-commands</module>
         <module>dummy-persistence-provider</module>
         <module>simple-embedded-derby</module>
+        <module>simple-repository</module>
     </modules>
     <packaging>pom</packaging>
     <name>jpa-test</name>
@@ -35,6 +36,12 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>1.1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>RELEASE</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

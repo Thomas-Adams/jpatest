@@ -29,6 +29,8 @@
         </resources>
 
         <plugins>
+            <!-- Phase execution of this plugin must occur before the maven-resources-plugin copies the persistence.xml
+             and before the openJPA enhance plugin-->
             <plugin>
                 <groupId>com.javatechnics.com.edugility</groupId>
                 <artifactId>jpa-maven-plugin</artifactId>
@@ -46,9 +48,11 @@
                         <goals>
                             <goal>list-entity-classnames</goal>
                         </goals>
+                        <phase>compile</phase>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -56,7 +60,7 @@
                 <executions>
                     <execution>
                         <id>persistence.xml</id>
-                        <phase>prepare-package</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -100,8 +104,23 @@
                     </instructions>
                 </configuration>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <id>openjpa-enhancer</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                        <configuration>
+                            <persistenceXmlFile>${project.build.directory}/classes/META-INF/persistence.xml</persistenceXmlFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
