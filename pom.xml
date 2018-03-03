@@ -13,6 +13,10 @@
     <packaging>pom</packaging>
     <name>jpa-test</name>
 
+    <properties>
+        <openjpa.version>2.4.2</openjpa.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
@@ -23,7 +27,7 @@
         <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa</artifactId>
-            <version>2.4.2</version>
+            <version>${openjpa.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -33,4 +37,42 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.openjpa</groupId>
+                    <artifactId>openjpa-maven-plugin</artifactId>
+                    <version>2.4.2</version>
+                    <configuration>re
+                        <includes>**/entities/*.class</includes>
+                        <excludes>**/entities/XML*.class</excludes>
+                        <addDefaultConstructor>true</addDefaultConstructor>
+                        <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>enhancer</id>
+                            <!-- TODO: This is too-late-a phase to run this plugin as it it comes after the 'test' phase.
+                            I have only put it here because it must run after the jpa-maven-plugin and maven-resouces-plugin
+                            which run in the 'prepare-package' phase so as to use the filtered persistence.xml file.
+                            This needs to be altered. -->
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>enhance</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.openjpa</groupId>
+                            <artifactId>openjpa</artifactId>
+                            <version>${openjpa.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
