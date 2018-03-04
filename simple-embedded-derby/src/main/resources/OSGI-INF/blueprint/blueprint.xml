@@ -7,15 +7,11 @@
 http://aries.apache.org/xmlns/jpa/v2.0.0 ">
 
     <jpa:enable/>
-    <bean id="dataSource" class="org.mariadb.jdbc.MySQLDataSource" activation="eager" >
-        <property name="databaseName" value="test"/>
-        <property name="URL" value="jdbc:mariadb://localhost/test" />
-        <property name="port" value="3306" />
-        <!--
-        Set user name and password as required here.
-        <property name="username" value="" />
-        <property name="password" value="" />
-        -->
+    <bean id="dataSource" class="org.apache.derby.jdbc.EmbeddedDataSource" activation="eager" >
+        <!-- The database name is relative to the 'root' directory. In the Karaf container this root is the installation
+        directory of Karaf itself therefore it's possible to use a subdirectory in the 'value' field as demonstrated here. -->
+        <property name="databaseName" value="databases/embedded-test"/>
+        <property name="createDatabase" value="create" />
     </bean>
 
     <service id="testDataSource" ref="dataSource" interface="javax.sql.DataSource">

@@ -9,6 +9,7 @@
         <module>simple-datasource</module>
         <module>simple-commands</module>
         <module>dummy-persistence-provider</module>
+        <module>simple-embedded-derby</module>
     </modules>
     <packaging>pom</packaging>
     <name>jpa-test</name>

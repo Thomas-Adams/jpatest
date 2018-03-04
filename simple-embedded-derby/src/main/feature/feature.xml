@@ -2,12 +2,12 @@
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="simple-commands"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0 ">
-    <feature name="simple-datasource" description="simple-datasource" version="1.0.0.SNAPSHOT">
+    <feature name="simple-embedded-derby" description="simple-embedded-derby" version="1.0.0.SNAPSHOT">
         <feature>jdbc</feature>
         <feature>jpa</feature>
         <feature>openjpa</feature>
-        <feature>pax-jdbc-mariadb</feature>
-        <bundle>mvn:com.javatechnics.jpa/simple-datasource/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.apache.derby/derby/10.11.1.1</bundle>
+        <bundle>mvn:com.javatechnics.jpa/simple-embedded-derby/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/simple/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/dummy-persistence-provider/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/simple-commands/1.0.0-SNAPSHOT</bundle>

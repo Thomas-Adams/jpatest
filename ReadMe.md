@@ -11,7 +11,7 @@ An example of how to use JPA within a OSGi container.
 
     _(The 4.2.X versions should also work if you want to try them)_
 
-2. MariaDB or MySQL database installed. 
+2. Either use the embedded Derby feature (RECOMMENDED! Details below) or have MariaDB/MySQL database installed. 
 
 3. `jpa-maven-plugin`. This is not currently available in Maven central so will need to be cloned and built. See [https://github.com/jtkb/jpa-maven-plugin](https://github.com/jtkb/jpa-maven-plugin) (I may make a JavaTechnics-wrapped SNAPSHOT version available in Maven Central)
 4. JDK 1.8
@@ -51,13 +51,23 @@ After a few moments Karaf will start although there will be no indication of thi
 
     ![client](pictures/client.png)
 
-4. Install the `simple` JPA feature _repo_ into Karaf by issuing the following command at the prompt:
+    ######Now do _one_ out of the following two steps for Derby (recommended) _OR_ MaridDA/MySQL:
 
-    `repo-add mvn:com.javatechnics.jpa/simple-commands/1.0.0-SNAPSHOT/xml/features`
+4. If you are using the Embedded Derby feature do the following; Install the `simple-embedded-derby` JPA feature _repo_ into Karaf by issuing the following command at the prompt:
 
-5. Now install the `simple` feature by issuing the following command at the prompt:
+    `repo-add mvn:com.javatechnics.jpa/simple-embedded-derby/1.0.0-SNAPSHOT/xml/features`
 
-    `feature:install simple-commands`
+    Now install the `simple-embedded-derby` feature by issuing the following command at the prompt:
+
+    `feature:install simple-embedded-derby`
+    
+5. If you are using the MariaDB/MySQL feature/database issue the following command at the prompt:
+
+    `repo-add mvn:com.javatechnics.jpa/simple-datasource/1.0.0-SNAPSHOT/xml/features`
+    
+    Now install the `simple-datasource` feature by issuing the following at the prompt:
+
+    `feature:install simple-datasource`
     
 6. Check the feature has been installed by issuing the following at the prompt:
 
@@ -67,7 +77,7 @@ After a few moments Karaf will start although there will be no indication of thi
     
     ![bundles](pictures/list_bundles.png)
     
-7. The `simple-commands` feature is now installed!
+7. The simple JPA example is now installed.
 
 ### Usage
 All the available commands can be viewed by issuing the following at the prompt:
@@ -99,6 +109,9 @@ Specifies the data objects and persistence unit.
 
 ##### Simple Datasource
 Specifies a data source for use with a persistence unit.
+
+##### Simple Embedded Derby
+Specifies an embedded datasource using Apache Derby.
 
 ##### Simple Commands
 Specifies Karaf commands that makes use of the 'simple' and 'simple datastore' modules.

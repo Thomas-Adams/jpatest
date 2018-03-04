@@ -7,16 +7,7 @@
         <class>${entityClassnames}</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <property name="openjpa.ConnectionURL" value="jdbc:mariadb://localhost:3306/test"/>
-            <property name="openjpa.ConnectionUserName" value="root"/>
-
-            <!-- Uncomment for connection password -->
-            <!--<property name="openjpa.ConnectionPassword" value=" "/>-->
-
-            <!-- Uncomment for loggin -->
-            <!--<property name="openjpa.Log" value="DefaultLevel=TRACE, Tool=INFO"/>-->
-
-            <!-- Create tables if they do not exist -->
+            <!-- Do NOT set connection, user, password details etc. here. These should be set at the DataSource beans-->
             <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
         </properties>
     </persistence-unit>
