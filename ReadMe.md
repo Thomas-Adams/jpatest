@@ -35,7 +35,7 @@ This will build the OSGi bundles and Karaf features and place them into you loca
 It's recommended you check the PGP/MD5/SHA1 of the file you downloaded. Then un-tar/un-zip to a directory of your choice to which you have read/write permissions.
 
 ##### 4. MariaDB or MySQL
-Ensure that you have a `root` user and the password is blank. If the user and/or password is something other than blank then you will need to change the password in [`persistence.xml`](simple/src/main/resources/META-INF/persistence.xml)
+Ensure that you have a `root` user and the password is blank. If the user and/or password is something other than blank then you will need to change the credentials in [`dataSource` bean of blueprint.xml](simple-datasource/src/main/resources/OSGI-INF/blueprint/blueprint.xml)
 
 In your database server create a database called `test`. You do not need to apply any schema to this database.
 
@@ -50,7 +50,7 @@ After a few moments Karaf will start although there will be no indication of thi
 
     ![client](pictures/client.png)
 
-    ######Now do _one_ out of the following two steps for Derby (recommended) _OR_ MaridDA/MySQL:
+    ###### Now do _one_ out of the following two steps for Derby (recommended) _OR_ MaridDA/MySQL:
 
 4. If you are using the Embedded Derby feature do the following; Install the `simple-embedded-derby` JPA feature _repo_ into Karaf by issuing the following command at the prompt:
 
@@ -90,7 +90,7 @@ To get help on a specific command e.g. `create`, issue the following at the prom
 ##### Creating a Book
 At the prompt issue:
 
-`book:create <author> <title>`
+`book:create <title> <author>`
 
 replacing `<author>` and `<title>` with values of your choosing.
 
@@ -103,7 +103,7 @@ All the books within the database will be printed to the terminal.
 
 ## Module Details
 
-##### Simple
+##### Simple DAO
 Specifies the data objects and persistence unit.
 
 ##### Simple Datasource

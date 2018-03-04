@@ -46,28 +46,6 @@
                     </instructions>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>karaf-maven-plugin</artifactId>
-                <groupId>org.apache.karaf.tooling</groupId>
-                <version>4.1.1</version>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>generate</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>features-generate-descriptor</goal>
-                        </goals>
-                        <configuration>
-                            <outputFile>target/features.xml</outputFile>
-                            <aggregateFeatures>false</aggregateFeatures>
-                            <includeTransitiveDependency>false</includeTransitiveDependency>
-                            <includeProjectArtifact>true</includeProjectArtifact>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>

@@ -8,7 +8,7 @@
         <feature>openjpa</feature>
         <feature>pax-jdbc-mariadb</feature>
         <bundle>mvn:com.javatechnics.jpa/simple-datasource/1.0.0-SNAPSHOT</bundle>
-        <bundle>mvn:com.javatechnics.jpa/simple/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:com.javatechnics.jpa/simple-dao/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/dummy-persistence-provider/1.0.0-SNAPSHOT</bundle>
         <bundle>mvn:com.javatechnics.jpa/simple-commands/1.0.0-SNAPSHOT</bundle>
     </feature>
