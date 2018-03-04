@@ -13,10 +13,9 @@ An example of how to use JPA within a OSGi container.
 
 2. Either use the embedded Derby feature (RECOMMENDED! Details below) or have MariaDB/MySQL database installed. 
 
-3. `jpa-maven-plugin`. This is not currently available in Maven central so will need to be cloned and built. See [https://github.com/jtkb/jpa-maven-plugin](https://github.com/jtkb/jpa-maven-plugin) (I may make a JavaTechnics-wrapped SNAPSHOT version available in Maven Central)
-4. JDK 1.8
+3. JDK 1.8
 
-5. Maven - any relatively recent version should be fine. Make sure that the `~/.m2` exists.
+4. Maven - any relatively recent version should be fine. Make sure that the `~/.m2` exists.
 
 ## Setup
 

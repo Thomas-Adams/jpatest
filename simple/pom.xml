@@ -30,13 +30,9 @@
 
         <plugins>
             <plugin>
-                <!-- This plugin isn't currently available in Maven Central at this version. Will need to build it
-                manually. Fork of the original source is here:
-                        https://github.com/jtkb/jpa-maven-plugin
-                -->
-                <groupId>com.edugility</groupId>
+                <groupId>com.javatechnics.com.edugility</groupId>
                 <artifactId>jpa-maven-plugin</artifactId>
-                <version>3-SNAPSHOT</version>
+                <version>3.0.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.eclipse.persistence</groupId>
