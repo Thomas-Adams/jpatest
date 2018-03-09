@@ -7,6 +7,10 @@ import org.osgi.framework.ServiceRegistration;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Dictionary;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Activator implements BundleActivator
 {
@@ -14,8 +18,23 @@ public class Activator implements BundleActivator
 
     private TestRepository testRepositoryProxy;
 
+    private static final String REPOSITORY_MANIFEST_HEADER = "Repository-Package";
+
+    private static Logger LOG = Logger.getLogger("RepositoryActivator");
+
     public void start(final BundleContext bundleContext) throws Exception
     {
+        final Dictionary<String, String> headers = bundleContext.getBundle().getHeaders();
+        String repositoryPackage = headers.get(REPOSITORY_MANIFEST_HEADER);
+        if (repositoryPackage == null || repositoryPackage.isEmpty())
+        {
+            LOG.log(Level.INFO, "Repository packages not defined.");
+        }
+        else
+        {
+            LOG.log(Level.INFO, "Repository package is: " + repositoryPackage);
+        }
+
         final MyInvocationHandler handler = new MyInvocationHandler();
         testRepositoryProxy = (TestRepository) Proxy.newProxyInstance(MyInvocationHandler.class.getClassLoader(),
                 new Class[]{TestRepository.class},
@@ -35,10 +54,21 @@ public class Activator implements BundleActivator
     {
         public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
         {
-            //TODO: implement handling of the three methods, hashCode, equals & clone(?)
-            System.out.println("This is the Proxy Handler being called. Method: " + method.getName());
+            Object returnObject = null;
+            switch (method.getName())
+            {
+                case "getBook":
+                    LOG.log(Level.INFO, "getBook() method called.");
+                    break;
+                case "hashCode":
+                    LOG.log(Level.INFO, "hashCode() method called.");
+                    returnObject = this.hashCode();
+                    break;
+                default:
+                    LOG.log(Level.INFO, "Unrecognised method name called: " + method.getName());
+            }
 
-            return this.hashCode();
+            return returnObject;
         }
     }
 }

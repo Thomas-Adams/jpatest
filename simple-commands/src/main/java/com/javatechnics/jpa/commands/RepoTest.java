@@ -16,6 +16,6 @@ public class RepoTest implements Action
     public Object execute() throws Exception
     {
         testRepository.getBook(1L);
-        return new Object();
+        return null;
     }
 }

@@ -30,6 +30,7 @@
                     <instructions>
                         <Export-Package>com.javatechnics.jpa.repository</Export-Package>
                         <Bundle-Activator>com.javatechnics.jpa.repository.Activator</Bundle-Activator>
+                        <Repository-Package>com.javatechnics.jpa.repository</Repository-Package>
                     </instructions>
                 </configuration>
             </plugin>
