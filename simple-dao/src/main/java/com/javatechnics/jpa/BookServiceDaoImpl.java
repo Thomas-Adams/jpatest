@@ -1,11 +1,12 @@
 package com.javatechnics.jpa;
 
 import com.javatechnics.jpa.dao.BookServiceDao;
+import com.javatechnics.jpa.dao.EntityManagerService;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-public class BookServiceDaoImpl implements BookServiceDao
+public class BookServiceDaoImpl implements BookServiceDao, EntityManagerService
 {
     @PersistenceContext(unitName = "test")
     private EntityManager manager;
@@ -54,5 +55,11 @@ public class BookServiceDaoImpl implements BookServiceDao
         manager.persist(book);
         transaction.commit();
         return book;
+    }
+
+    @Override
+    public EntityManager getEntityManager()
+    {
+        return this.manager;
     }
 }

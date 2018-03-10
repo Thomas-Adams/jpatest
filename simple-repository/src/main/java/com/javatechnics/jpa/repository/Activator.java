@@ -1,8 +1,12 @@
 package com.javatechnics.jpa.repository;
 
-import org.osgi.framework.BundleActivator;
+import com.javatechnics.jpa.dao.EntityManagerService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -11,9 +15,12 @@ import java.util.Dictionary;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-public class Activator implements BundleActivator
+@Component
+public class Activator
 {
+    @Reference
+    EntityManagerService entityManagerService;
+
     private ServiceRegistration<TestRepository> testRepositoryServiceRegistration;
 
     private TestRepository testRepositoryProxy;
@@ -22,7 +29,8 @@ public class Activator implements BundleActivator
 
     private static Logger LOG = Logger.getLogger("RepositoryActivator");
 
-    public void start(final BundleContext bundleContext) throws Exception
+    @Activate
+    public void activate(final BundleContext bundleContext) throws Exception
     {
         final Dictionary<String, String> headers = bundleContext.getBundle().getHeaders();
         String repositoryPackage = headers.get(REPOSITORY_MANIFEST_HEADER);
@@ -42,7 +50,8 @@ public class Activator implements BundleActivator
         testRepositoryServiceRegistration = bundleContext.registerService(TestRepository.class, testRepositoryProxy, null);
     }
 
-    public void stop(final BundleContext bundleContext) throws Exception
+    @Deactivate
+    public void deactivate(final BundleContext bundleContext) throws Exception
     {
         if (testRepositoryServiceRegistration != null)
         {

@@ -1,4 +1,4 @@
-package com.javatechnics.jpa.commands;
+package com.javatechnics.jpa.repository.commands;
 
 import com.javatechnics.jpa.repository.TestRepository;
 import org.apache.karaf.shell.api.action.Action;
