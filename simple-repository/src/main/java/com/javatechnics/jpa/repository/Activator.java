@@ -1,6 +1,7 @@
 package com.javatechnics.jpa.repository;
 
 import com.javatechnics.jpa.dao.EntityManagerService;
+import com.javatechnics.jpa.repository.proxy.RepositoryProxyHandler;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
@@ -8,24 +9,31 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class Activator
 {
     @Reference
-    EntityManagerService entityManagerService;
+    private EntityManagerService entityManagerService;
 
-    private ServiceRegistration<TestRepository> testRepositoryServiceRegistration;
+    private final static String JPQL_PARAMETER_REGEX = ":[a-zA-Z]+";
 
-    private TestRepository testRepositoryProxy;
+    private final static Pattern JPQL_PATTERN = Pattern.compile(JPQL_PARAMETER_REGEX);
 
-    private static final String REPOSITORY_MANIFEST_HEADER = "Repository-Package";
+    private List<ServiceRegistration<?>> serviceRegistrations = new ArrayList<>();
+
+    public static final String REPOSITORY_MANIFEST_HEADER = "Repository-Package";
 
     private static Logger LOG = Logger.getLogger("RepositoryActivator");
 
@@ -41,43 +49,49 @@ public class Activator
         else
         {
             LOG.log(Level.INFO, "Repository package is: " + repositoryPackage);
+            final QueryScanner queryScanner = new QueryScanner();
+            final Map<Class<?>, Map<Method, String>> queries = queryScanner.scanForQueries(new String[] {repositoryPackage}, bundleContext);
+            registerRepositories(queries, bundleContext);
         }
 
-        final MyInvocationHandler handler = new MyInvocationHandler();
-        testRepositoryProxy = (TestRepository) Proxy.newProxyInstance(MyInvocationHandler.class.getClassLoader(),
-                new Class[]{TestRepository.class},
-                handler);
-        testRepositoryServiceRegistration = bundleContext.registerService(TestRepository.class, testRepositoryProxy, null);
     }
 
     @Deactivate
     public void deactivate(final BundleContext bundleContext) throws Exception
     {
-        if (testRepositoryServiceRegistration != null)
+        for (ServiceRegistration<?> serviceRegistration : serviceRegistrations)
         {
-            testRepositoryServiceRegistration.unregister();
+            serviceRegistration.unregister();
         }
     }
 
-    private class MyInvocationHandler implements InvocationHandler
+    private void registerRepositories(final Map<Class<?>, Map<Method,String>> queries, final BundleContext bundleContext)
     {
-        public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-        {
-            Object returnObject = null;
-            switch (method.getName())
-            {
-                case "getBook":
-                    LOG.log(Level.INFO, "getBook() method called.");
-                    break;
-                case "hashCode":
-                    LOG.log(Level.INFO, "hashCode() method called.");
-                    returnObject = this.hashCode();
-                    break;
-                default:
-                    LOG.log(Level.INFO, "Unrecognised method name called: " + method.getName());
-            }
+        //tODO: should this be the class loader for the repository?
+        ClassLoader classLoader = Activator.class.getClassLoader();
 
-            return returnObject;
+        for (Map.Entry<Class<?>, Map<Method, String>> repoqueries : queries.entrySet())
+        {
+
+            Class<?> repoClass = repoqueries.getKey();
+            Map<Method, String> methodRawQueries = repoqueries.getValue();
+            final Map<Method, List<String>> methodQueryParameters = new HashMap<>();
+
+            for (Map.Entry<Method, String> methodQuery : methodRawQueries.entrySet())
+            {
+                final Matcher matcher = JPQL_PATTERN.matcher(methodQuery.getValue());
+                final List<String> queryParameters = new ArrayList<>();
+
+                while(matcher.find())
+                {
+                    queryParameters.add(methodQuery.getValue().substring(matcher.start() + 1, matcher.end()));
+                }
+                methodQueryParameters.put(methodQuery.getKey(), queryParameters);
+            }
+            final RepositoryProxyHandler handler = new RepositoryProxyHandler(entityManagerService, methodRawQueries, methodQueryParameters);
+            final Object repoProxy = repoClass.cast(Proxy.newProxyInstance(classLoader, new Class[]{repoClass}, handler));
+            final ServiceRegistration<?> serviceRegistration = bundleContext.registerService(repoClass.getName(), repoProxy, null);
+            serviceRegistrations.add(serviceRegistration);
         }
     }
 }

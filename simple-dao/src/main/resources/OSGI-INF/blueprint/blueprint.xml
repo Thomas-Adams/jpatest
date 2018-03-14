@@ -8,13 +8,15 @@ http://aries.apache.org/xmlns/jpa/v2.0.0 ">
 
     <jpa:enable />
 
-    <bean id="bookServiceDao" class="com.javatechnics.jpa.BookServiceDaoImpl" activation="eager" />
-
+    <bean id="bookServiceDao" class="com.javatechnics.jpa.BookServiceDaoImpl" activation="eager" scope="singleton"/>
     <service ref="bookServiceDao" interface="com.javatechnics.jpa.dao.BookServiceDao" activation="eager">
         <service-properties>
             <entry key="name" value="BookServiceDao" />
             <entry key="ServiceManager" value="Blueprint" />
         </service-properties>
     </service>
+
+    <bean id="entityManagerService" class="com.javatechnics.jpa.EntityManagerServiceImpl" activation="eager" scope="singleton" />
+    <service ref="entityManagerService" interface="com.javatechnics.jpa.dao.EntityManagerService" activation="eager" />
 
 </blueprint>
