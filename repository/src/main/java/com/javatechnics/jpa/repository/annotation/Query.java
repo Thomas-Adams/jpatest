@@ -1,4 +1,4 @@
-package com.javatechnics.jpa.annotation;
+package com.javatechnics.jpa.repository.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

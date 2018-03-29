@@ -1,7 +1,7 @@
-package com.javatechnics.jpa.repository.commands;
+package com.javatechnics.jpa.book.repository.commands;
 
 import com.javatechnics.jpa.Book;
-import com.javatechnics.jpa.repository.BookRepository;
+import com.javatechnics.jpa.book.repository.BookRepository;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;

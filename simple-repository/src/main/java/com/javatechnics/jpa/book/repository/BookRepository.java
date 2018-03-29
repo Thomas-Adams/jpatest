@@ -1,8 +1,8 @@
-package com.javatechnics.jpa.repository;
+package com.javatechnics.jpa.book.repository;
 
 import com.javatechnics.jpa.Book;
-import com.javatechnics.jpa.annotation.Query;
-import com.javatechnics.jpa.annotation.Repository;
+import com.javatechnics.jpa.repository.annotation.Query;
+import com.javatechnics.jpa.repository.annotation.Repository;
 
 import java.util.List;
 

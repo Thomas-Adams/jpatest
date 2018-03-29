@@ -1,12 +1,13 @@
 package com.javatechnics.jpa.repository;
 
-import com.javatechnics.jpa.annotation.Query;
-import com.javatechnics.jpa.annotation.Repository;
+import com.javatechnics.jpa.repository.annotation.Param;
+import com.javatechnics.jpa.repository.annotation.Query;
+import com.javatechnics.jpa.repository.annotation.Repository;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.wiring.BundleWiring;
 
-import javax.persistence.EntityManager;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,13 +18,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class QueryScanner
+public final class QueryScanner
 {
     private static final String CLASS_SUFFIX = ".class";
     private static final String CLASS_FILTER = "*.class";
     private static final Logger LOG = Logger.getLogger(QueryScanner.class.getName());
 
-    public Map<Class<?>, Map<Method, String>> scanForQueries(final String[] packages, BundleContext bundleContext)
+    public static Map<Class<?>, Map<Method, String>> scanForQueries(final String[] packages, BundleContext bundleContext)
     {
         final Map<Class<?>, Map<Method, String>> queries = new HashMap<>();
         final List<Class> interfaces = getClasses(packages, bundleContext).stream()
@@ -36,7 +37,6 @@ public class QueryScanner
             Repository repositoryAnnotation = (Repository) clazz.getAnnotation(Repository.class);
             if (repositoryAnnotation != null)
             {
-
                 Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods)
                 {
@@ -66,7 +66,7 @@ public class QueryScanner
                     resources.stream()
                             .map(file ->
                             {
-                                Class clazz = null;
+                                Class<?> clazz = null;
                                 try
                                 {
                                     final String className = file.replace("/", ".").substring(0, file.length() - CLASS_SUFFIX.length());

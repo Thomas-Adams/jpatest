@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>simple-repository</artifactId>
+    <artifactId>repository</artifactId>
     <packaging>bundle</packaging>
 
-    <name>simple-repository</name>
+    <name>repository</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -19,33 +19,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.javatechnics.jpa</groupId>
-            <artifactId>simple-dao</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javatechnics.jpa</groupId>
-            <artifactId>repository</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.11.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.2.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Repository-Package>com.javatechnics.jpa.book.repository</Repository-Package>
-                        <Karaf-Commands>*</Karaf-Commands>
-                    </instructions>
-                </configuration>
+                <artifactId>maven-scr-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>com.javatechnics.jpa.repository.annotation</Export-Package>
+                    </instructions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
