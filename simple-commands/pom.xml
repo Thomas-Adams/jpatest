@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>com.javatechnics.jpa</groupId>
-            <artifactId>simple</artifactId>
+            <artifactId>simple-dao</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
